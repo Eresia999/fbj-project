@@ -1,0 +1,63 @@
+#!/bin/sh
+
+# Questo è lo script principale per gestire le jail su FreeBSD
+
+# Includi il file di configurazione
+CONFIG_FILE_USER="/usr/local/etc/fbj/fbj.conf"
+CONFIG_FILE_SYSTEM="/usr/local/etc/fbj/fbj-system.conf"
+if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
+    . "$CONFIG_FILE_USER"
+    . "$CONFIG_FILE_SYSTEM"
+else
+    echo "Configuration file not found"
+    exit 1
+fi
+
+jail_name="$2"
+
+# Verifica che lo script sia eseguito con i privilegi di root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "Questo script deve essere eseguito con i privilegi di root."
+    exit 1
+fi
+
+if [ -z "$2" ] && { [ "$1" != "update" ] && [ "$1" != "init" ]; }
+then
+  read -p "Nome jail:" jail_name
+fi
+
+case $1 in
+    create)
+        shift 1
+        sh $CREATE_JAIL "$@"
+        ;;
+    update)
+        sh $UPDATE_JAIL "$jail_name" "$3"
+        ;;
+    upgrade)
+        sh $UPGRADE_JAIL "$jail_name" "$3"
+        ;;    
+    delete)
+        sh $DELETE_JAIL "$jail_name"
+        ;;
+    rename)
+        sh $RENAME_JAIL "$jail_name" "$3"
+        ;;
+    start | stop | restart | autostart)
+        sh $JAIL_BOOT "$1" "$jail_name"
+        ;;
+    init)
+        ee "$CONFIG_DIR/fbj.conf"
+        sh $UTILITIES_DIR/utility-init.sh
+        ;;
+    *)
+        echo "Utilizzo: $0 [create|update|upgrade|delete|rename|start|stop|restart|autostart|init]"
+        echo "$0 create name ip (bridge) (ip2) (bridge2) (start) (autostart)"
+        echo "$0 update (name) (base|pkg)"
+        echo "$0 upgrade name RELEASE"
+        echo "$0 delete name"
+        echo "$0 rename name (newname)"
+        echo "$0 start|stop|restart|autostart name"
+        echo "$0 init"
+        ;;
+esac
