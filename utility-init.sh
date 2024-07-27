@@ -14,8 +14,6 @@ fi
 sysrc jail_enable="YES"
 sysrc jail_list+=""
 
-echo '.include "/etc/jail.conf.d/*.conf";' >> /etc/jail.conf
-
 if [ -n $CUSTOM_DEVFS_RULES ]; then
     cp "$CUSTOM_DEVFS_RULES" /etc/devfs.rules
     service devfs restart

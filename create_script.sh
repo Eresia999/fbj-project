@@ -72,6 +72,7 @@ for arg in "$@"; do
         release="${arg}"
         ;;
     *)
+        echo "Wrong value for: ${arg}"
     ;;
     esac
     
