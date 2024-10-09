@@ -14,13 +14,25 @@ fi
 sysrc jail_enable="YES"
 sysrc jail_list+=""
 
-if [ -n $CUSTOM_DEVFS_RULES ]; then
-    cp "$CUSTOM_DEVFS_RULES" /etc/devfs.rules
-    service devfs restart
-fi
+read -p "Do you need custom devfs.rules? y/N" a_cds
+
+case "$a_cds" in
+  [Yy] | [Yy][Ee][Ss]) 
+        if [ -n "$CUSTOM_DEVFS_RULES" ]; then
+            ee "$CUSTOM_DEVFS_RULES"
+            cp "$CUSTOM_DEVFS_RULES" /etc/devfs.rules
+            service devfs restart
+        else
+            echo "CUSTOM_DEVFS_RULES is not set."
+        fi
+    ;;
+  *) 
+    echo "NO custom devfs.rules"
+    ;;
+esac
 
 if [ -z "$JAIL_ZMOUNTPOINT" ] || [ -z "$JAIL_MOUNTPOINT" ] || [ -z "$JAIL_ZMEDIA" ] || [ -z "$JAIL_ZDIR" ]; then
-    echo "Errore: Alcune variabili non sono definite correttamente."
+    echo "Error: Some variables are not set."
     exit 1
 fi
 
