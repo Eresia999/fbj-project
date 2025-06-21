@@ -37,9 +37,9 @@ create_directory "$CONFIG_DIR"
 
 # Copy scripts and utilities
 cp fbj "$MAIN_SCRIPT_DIR/"
-cp conf/ "$CONFIG_DIR/"
-cp scripts "$CONFIG_DIR"
-cp utilities "$CONFIG_DIR"
+cp conf/* "$CONFIG_DIR/"
+cp -r scripts "$CONFIG_DIR"
+cp -r utilities "$CONFIG_DIR"
 
 # make it executable
 chmod +x "$MAIN_SCRIPT_DIR/fbj"
