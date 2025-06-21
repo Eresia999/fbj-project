@@ -1,36 +1,30 @@
 #!/bin/sh
 
-# Include il file di configurazione se esiste
-CONFIG_FILE_USER="/usr/local/etc/fbj/fbj.conf"
+# Include the configuration file
+
+FBJ_DIR="/usr/local/etc/fbj"
+
+if [ -d "~/.local/share/fbj" ]; then
+    FBJ_DIR="$HOME/.local/share/fbj"
+fi
+
+CONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
+
 if [ -f "$CONFIG_FILE_USER" ]; then
     . "$CONFIG_FILE_USER"
 else
     echo "Configuration file not found: $CONFIG_FILE_USER"
-    echo "Install fbj: ./install.sh"
+    echo "Please install fbj: ./install.sh"
     exit 1
 fi
 
-# Funzione per creare una directory se non esiste
-#create_directory() {
-#    local dir="$1"
-#    if [ ! -d "$dir" ]; then
-#        mkdir -p "$dir"
-#    fi
-#}
-
-# Verifica che lo script sia eseguito con i privilegi di root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "Questo script deve essere eseguito con i privilegi di root."
-    exit 1
-fi
-
-# Copia gli script principali
+# update scripts and utilities
 cp fbj "$MAIN_SCRIPT_DIR/"
-cp *script.sh "$SCRIPTS_DIR/"
-cp utility* "$UTILITIES_DIR/"
-cp fbj-system.conf "$CONFIG_DIR/"
+cp scripts "$FBJ_DIR/"
+cp utility "$FBJ_DIR/"
+cp fbj-system.conf "$FBJ_DIR/"
 
-# Autorizza l'esecuzione
+# make it executable
 chmod +x "$MAIN_SCRIPT_DIR/fbj"
 chmod +x "$SCRIPTS_DIR"/*.sh
 chmod +x "$UTILITIES_DIR"/utility*

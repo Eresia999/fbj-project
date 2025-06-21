@@ -1,8 +1,16 @@
 #!/bin/sh
 
-# Includi il file di configurazione
-CONFIG_FILE_USER="/usr/local/etc/fbj/fbj.conf"
-CONFIG_FILE_SYSTEM="/usr/local/etc/fbj/fbj-system.conf"
+# Include the configuration file
+
+FBJ_DIR="/usr/local/etc/fbj"
+
+if [ -d "~/.local/share/fbj" ]; then
+    FBJ_DIR="$HOME/.local/share/fbj"
+fi
+
+CONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
+CONFIG_FILE_SYSTEM="$FBJ_DIR/fbj-system.conf"
+
 if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"

@@ -2,9 +2,17 @@
 
 # Questo è lo script principale per gestire le jail su FreeBSD
 
-# Includi il file di configurazione
-CONFIG_FILE_USER="/usr/local/etc/fbj/fbj.conf"
-CONFIG_FILE_SYSTEM="/usr/local/etc/fbj/fbj-system.conf"
+# Include the configuration file
+
+FBJ_DIR="/usr/local/etc/fbj"
+
+if [ -d "~/.local/share/fbj" ]; then
+    FBJ_DIR="$HOME/.local/share/fbj"
+fi
+
+CONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
+CONFIG_FILE_SYSTEM="$FBJ_DIR/fbj-system.conf"
+
 if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
@@ -17,7 +25,7 @@ jail_name="$2"
 
 # Verifica che lo script sia eseguito con i privilegi di root
 if [ "$(id -u)" -ne 0 ]; then
-    echo "Questo script deve essere eseguito con i privilegi di root."
+    echo "Sorry, you must be root to run this script."
     exit 1
 fi
 
@@ -52,7 +60,7 @@ case $1 in
         ;;
     *)
         echo "Utilizzo: $0 [create|update|upgrade|delete|rename|start|stop|restart|autostart|init]"
-        echo "$0 create name ip (bridge) (ip2) (bridge2) (start) (autostart)"
+        echo "$0 create name ip1 (bridge1) (ip2) (bridge2) (start) (autostart)"
         echo "$0 update (name) (base|pkg)"
         echo "$0 upgrade name RELEASE"
         echo "$0 delete name"

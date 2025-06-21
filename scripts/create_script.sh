@@ -1,8 +1,16 @@
 #!/bin/sh
 
-# Includi il file di configurazione
-CONFIG_FILE_USER="/usr/local/etc/fbj/fbj.conf"
-CONFIG_FILE_SYSTEM="/usr/local/etc/fbj/fbj-system.conf"
+# Include the configuration file
+
+FBJ_DIR="/usr/local/etc/fbj"
+
+if [ -d "~/.local/share/fbj" ]; then
+    FBJ_DIR="$HOME/.local/share/fbj"
+fi
+
+CONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
+CONFIG_FILE_SYSTEM="$FBJ_DIR/fbj-system.conf"
+
 if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
@@ -23,18 +31,18 @@ create_jail() {
         release="$(echo $(freebsd-version) | awk -F- '{print $1 "-" $2}')"
     fi
 
-    echo -e "\n\tCreo jail $jail_name\n"
+    echo -e "\n\tCreating $jail_name...\n"
 
-    # Verifica se MEDIA contiene la base 
+    # Verify if base exists
     if [ ! -e "$MEDIA_DIR/$release-base.txz" ]; then
         fetch "https://download.freebsd.org/ftp/releases/$hw/$arch/$release/base.txz" -o "$MEDIA_DIR/$release-base.txz"
     fi
 
-    # Creo i dataset
+    # Creating dataset
     zfs create "$zfs_path"
     mkdir -p "$jail_path"
 
-    # Installo la jail
+    # Creating jail
     tar -xf "$MEDIA_DIR/$release-base.txz" -C "$jail_path" --unlink
     cp /etc/localtime "$jail_path/etc/localtime"
     #bsdinstall jail "$jail_path"
@@ -50,7 +58,7 @@ release=""
 jail_id="0"
 jail_path="$JAIL_DIR/$jail_name/root"
 
-# Verifica se il dataset esiste
+# Verify if dataset exists
 if zfs list "$JAIL_ZDIR/$jail_name" >/dev/null 2>&1; then
   echo "Error: Dataset already exist."
   exit 1
@@ -78,7 +86,7 @@ for arg in "$@"; do
     
 done
 
-# Creazione della jail
+# Create jail
 create_jail "$jail_name" "$jail_path" "$release"
 
 # Create jail ID

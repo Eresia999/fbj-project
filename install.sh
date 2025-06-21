@@ -1,9 +1,9 @@
 #!/bin/sh
 
-# Includi il file di configurazione
-. ./fbj.conf
+# Include the configuration file
+. ./conf/fbj.conf
 
-# Funzione per creare una directory se non esiste
+# create directories
 create_directory() {
     local dir="$1"
     if [ ! -d "$dir" ]; then
@@ -11,26 +11,48 @@ create_directory() {
     fi
 }
 
-# Verifica che lo script sia eseguito con i privilegi di root
+# Main
+
+# fbj paths
+MAIN_SCRIPT_DIR="/usr/local/bin"
+SCRIPTS_DIR="/usr/local/share/fbj/scripts"
+UTILITIES_DIR="/usr/local/share/fbj/utilities"
+CONFIG_DIR="/usr/local/etc/fbj"
+
+# if not root...
 if [ "$(id -u)" -ne 0 ]; then
-    echo "Questo script deve essere eseguito con i privilegi di root."
-    exit 1
+    echo "You are not root. This script will be installed just for your user."
+    echo "Please run this script as root to install fbj globally"
+    echo "or you need to execute the script with sudo or similar."
+    
+    MAIN_SCRIPT_DIR="~/.local/bin"
+    SCRIPTS_DIR="~/.local/share/fbj/scripts"
+    UTILITIES_DIR="~/.local/share/fbj/utilities"
+    CONFIG_DIR="~/.local/share/fbj"
 fi
 
+
 create_directory "$MAIN_SCRIPT_DIR"
-create_directory "$SCRIPTS_DIR"
-create_directory "$UTILITIES_DIR"
 create_directory "$CONFIG_DIR"
-create_directory "$MEDIA_DIR"
 
-# Copia gli script principali
+# Copy scripts and utilities
 cp fbj "$MAIN_SCRIPT_DIR/"
-cp *.conf "$CONFIG_DIR/"
-cp *script.sh "$SCRIPTS_DIR/"
-cp utility* "$UTILITIES_DIR/"
+cp conf/ "$CONFIG_DIR/"
+cp scripts "$CONFIG_DIR"
+cp utilities "$CONFIG_DIR"
 
+# make it executable
 chmod +x "$MAIN_SCRIPT_DIR/fbj"
 chmod +x "$SCRIPTS_DIR"/*.sh
 chmod +x "$UTILITIES_DIR"/utility*
 
-echo "Installazione completata con successo!"
+# copy paths in the configuration file
+cat << EOF >> "$CONFIG_DIR/fbj.conf"
+
+# fbj paths
+MAIN_SCRIPT_DIR="$MAIN_SCRIPT_DIR"
+SCRIPTS_DIR="$SCRIPTS_DIR"
+UTILITIES_DIR="$UTILITIES_DIR"
+EOF
+
+echo "fbj installed successfully."
