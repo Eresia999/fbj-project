@@ -6,13 +6,13 @@ I was just too lazy to do it manually.
 You can install it as a normal user, but you will still need root privileges (via sudo or doas) to execute fbj commands.
 If you install it as a normal user, the paths will be:
 
-    - Binaries: ~/.local/bin
+    - Main script: ~/.local/bin
 
     - Data: ~/.local/share/fbj
 > [!NOTE]  
->consider to put this in your `~/.shrc` or `~/.profile`:
+>Consider adding this to your `~/.shrc` or `~/.profile`:
 >```
->  if [ -d "$HOME/.local/bin" ]; then
+> if [ -d "$HOME/.local/bin" ]; then
 >    PATH="$HOME/.local/bin:$PATH"
 >fi
 >export PATH
@@ -20,15 +20,18 @@ If you install it as a normal user, the paths will be:
 
 If you install it as root, they will be:
 
-    - Binaries: /usr/local/bin
+    - Main script: /usr/local/bin
 
-    - Data: /usr/local/share/fbj
+    - Other data: /usr/local/share/fbj
 
     - Config file: /usr/local/etc/fbj
 
 Jails are created exactly as described in the Handbook.
+
 > [!NOTE]  
->Note: if you need a bridge (and you will), you must configure it manually.
+>If you need a bridge (and you will), you must configure it manually.
+
+---
 
 ## Installation
 
@@ -55,10 +58,10 @@ sudo fbj init
 
 ## Other commands:
 ```sh
-fbj update <name> [<base>|<pkg>]    # Update base or packages
-fbj upgrade <name> <RELEASE>    # Upgrade jail to new FreeBSD release
-fbj delete <name>   # Delete a jail
-fbj rename <name> <newname> # Rename a jail
-fbj start|stop|restart|autostart <name>
-fbj init    # Initialize base system for jail creation 
+fbj update <name> [<base>|<pkg>]        # Update base or packages
+fbj upgrade <name> <RELEASE>            # Upgrade jail to new FreeBSD release
+fbj delete <name>                       # Delete a jail
+fbj rename <name> <newname>             # Rename a jail
+fbj start|stop|restart|autostart <name> # Start, stop, restart or start a jail at boot
+fbj init                                # Initialize base system for jail creation 
 ```
