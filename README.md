@@ -9,6 +9,14 @@ If you install it as a normal user, the paths will be:
     - Binaries: ~/.local/bin
 
     - Data: ~/.local/share/fbj
+> [!NOTE]  
+>consider to put this in your `~/.shrc` or `~/.profile`:
+>```
+>  if [ -d "$HOME/.local/bin" ]; then
+>    PATH="$HOME/.local/bin:$PATH"
+>fi
+>export PATH
+> ```
 
 If you install it as root, they will be:
 
@@ -19,7 +27,8 @@ If you install it as root, they will be:
     - Config file: /usr/local/etc/fbj
 
 Jails are created exactly as described in the Handbook.
-Note: if you need a bridge (and you will), you must configure it manually.
+> [!NOTE]  
+>Note: if you need a bridge (and you will), you must configure it manually.
 
 ## Installation
 
