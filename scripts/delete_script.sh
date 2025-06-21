@@ -4,7 +4,7 @@
 
 FBJ_DIR="/usr/local/etc/fbj"
 
-if [ -d "~/.local/share/fbj" ]; then
+if [ -d "$HOME/.local/share/fbj" ]; then
     FBJ_DIR="$HOME/.local/share/fbj"
 fi
 

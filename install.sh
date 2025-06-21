@@ -24,11 +24,11 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "You are not root. This script will be installed just for your user."
     echo "Please run this script as root to install fbj globally"
     echo "or you need to execute the script with sudo or similar."
-    
-    MAIN_SCRIPT_DIR="~/.local/bin"
-    SCRIPTS_DIR="~/.local/share/fbj/scripts"
-    UTILITIES_DIR="~/.local/share/fbj/utilities"
-    CONFIG_DIR="~/.local/share/fbj"
+    echo ""
+    MAIN_SCRIPT_DIR="$HOME/.local/bin"
+    SCRIPTS_DIR="$HOME/.local/share/fbj/scripts"
+    UTILITIES_DIR="$HOME/.local/share/fbj/utilities"
+    CONFIG_DIR="$HOME/.local/share/fbj"
 fi
 
 
@@ -42,7 +42,7 @@ cp -r scripts "$CONFIG_DIR"
 cp -r utilities "$CONFIG_DIR"
 
 # make it executable
-chmod +x "$MAIN_SCRIPT_DIR/fbj"
+chmod +x "$MAIN_SCRIPT_DIR"/fbj
 chmod +x "$SCRIPTS_DIR"/*.sh
 chmod +x "$UTILITIES_DIR"/utility*
 

@@ -19,13 +19,13 @@ else
 fi
 
 # update scripts and utilities
-cp fbj "$MAIN_SCRIPT_DIR/"
-cp scripts "$FBJ_DIR/"
-cp utility "$FBJ_DIR/"
-cp fbj-system.conf "$FBJ_DIR/"
+cp fbj "$MAIN_SCRIPT_DIR"/
+cp -r scripts "$FBJ_DIR"/
+cp -r utility "$FBJ_DIR"/
+cp fbj-system.conf "$FBJ_DIR"/
 
 # make it executable
-chmod +x "$MAIN_SCRIPT_DIR/fbj"
+chmod +x "$MAIN_SCRIPT_DIR"/fbj
 chmod +x "$SCRIPTS_DIR"/*.sh
 chmod +x "$UTILITIES_DIR"/utility*
 
