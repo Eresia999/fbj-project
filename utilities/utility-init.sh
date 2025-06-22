@@ -4,10 +4,6 @@
 
 FBJ_DIR="/usr/local/etc/fbj"
 
-if [ -d "$HOME/.local/share/fbj" ]; then
-    FBJ_DIR="$HOME/.local/share/fbj"
-fi
-
 CONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
 CONFIG_FILE_SYSTEM="$FBJ_DIR/fbj-system.conf"
 

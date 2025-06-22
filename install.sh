@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Include the configuration file
-. ./conf/fbj.conf
+. ./conf/fbj-system.conf
 
 # create directories
 create_directory() {
@@ -14,21 +14,15 @@ create_directory() {
 # Main
 
 # fbj paths
-MAIN_SCRIPT_DIR="/usr/local/bin"
-SCRIPTS_DIR="/usr/local/share/fbj/scripts"
-UTILITIES_DIR="/usr/local/share/fbj/utilities"
+
 CONFIG_DIR="/usr/local/etc/fbj"
 
 # if not root...
 if [ "$(id -u)" -ne 0 ]; then
-    echo "You are not root. This script will be installed just for your user."
-    echo "Please run this script as root to install fbj globally"
-    echo "or you need to execute the script with sudo or similar."
     echo ""
-    MAIN_SCRIPT_DIR="$HOME/.local/bin"
-    SCRIPTS_DIR="$HOME/.local/share/fbj/scripts"
-    UTILITIES_DIR="$HOME/.local/share/fbj/utilities"
-    CONFIG_DIR="$HOME/.local/share/fbj"
+    echo "Please run this script as root to install fbj"
+    echo ""
+    exit 1
 fi
 
 
@@ -45,14 +39,5 @@ cp -r utilities "$CONFIG_DIR"
 chmod +x "$MAIN_SCRIPT_DIR"/fbj
 chmod +x "$SCRIPTS_DIR"/*.sh
 chmod +x "$UTILITIES_DIR"/utility*
-
-# copy paths in the configuration file
-cat << EOF >> "$CONFIG_DIR/fbj.conf"
-
-# fbj paths
-MAIN_SCRIPT_DIR="$MAIN_SCRIPT_DIR"
-SCRIPTS_DIR="$SCRIPTS_DIR"
-UTILITIES_DIR="$UTILITIES_DIR"
-EOF
 
 echo "fbj installed successfully."

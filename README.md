@@ -3,22 +3,7 @@
 Script to create and manage VNET jails as described in the FreeBSD Handbook.
 I was just too lazy to do it manually.
 
-You can install it as a normal user, but you will still need root privileges (via sudo or doas) to execute fbj commands.
-If you install it as a normal user, the paths will be:
-
-    - Main script: ~/.local/bin
-
-    - Data: ~/.local/share/fbj
-> [!NOTE]  
->Consider adding this to your `~/.shrc` or `~/.profile`:
->```
-> if [ -d "$HOME/.local/bin" ]; then
->    PATH="$HOME/.local/bin:$PATH"
->fi
->export PATH
-> ```
-
-If you install it as root, they will be:
+You must install it as root, the paths will be:
 
     - Main script: /usr/local/bin
 
@@ -38,8 +23,8 @@ Jails are created exactly as described in the Handbook.
 ```sh 
 git clone https://github.com/Eresia999/fbj-project.git
 cd fbj-project
-chmod +x install.sh
-./install.sh
+sudo chmod +x install.sh
+sudo ./install.sh
 sudo fbj init 
 ```
 
