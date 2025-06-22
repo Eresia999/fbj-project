@@ -18,7 +18,7 @@ fi
 sysrc jail_enable="YES"
 sysrc jail_list+=""
 
-read -p "Do you need custom devfs.rules? y/N" a_cds
+read -p "Do you need custom devfs.rules? [y/N]\n" a_cds
 
 case "$a_cds" in
   [Yy] | [Yy][Ee][Ss]) 
@@ -46,8 +46,14 @@ fi
 
 if ! zfs list "$JAIL_ZMEDIA" >/dev/null 2>&1; then
     zfs create "$JAIL_ZMEDIA"
+    if [ "$MEDIA_DIR" != "$JAIL_MOUNTPOINT/media" ]; then
+        zfs set mountpoint="$MEDIA_DIR" "$JAIL_ZMEDIA"
+    fi
 fi
 
 if ! zfs list "$JAIL_ZDIR" >/dev/null 2>&1; then
     zfs create "$JAIL_ZDIR"
+    if [ "$JAIL_DIR" != "$JAIL_MOUNTPOINT/containers" ]; then
+        zfs set mountpoint="$JAIL_DIR" "$JAIL_ZDIR"
+    fi
 fi
