@@ -35,9 +35,4 @@ cp conf/* "$CONFIG_DIR/"
 cp -r scripts "$CONFIG_DIR"
 cp -r utilities "$CONFIG_DIR"
 
-# make it executable
-chmod +x "$MAIN_SCRIPT_DIR"/fbj
-chmod +x "$SCRIPTS_DIR"/*.sh
-chmod +x "$UTILITIES_DIR"/utility*
-
 echo "fbj installed successfully."
