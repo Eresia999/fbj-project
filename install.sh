@@ -13,10 +13,6 @@ create_directory() {
 
 # Main
 
-# fbj paths
-
-CONFIG_DIR="/usr/local/etc/fbj"
-
 # if not root...
 if [ "$(id -u)" -ne 0 ]; then
     echo ""
@@ -28,11 +24,12 @@ fi
 
 create_directory "$MAIN_SCRIPT_DIR"
 create_directory "$CONFIG_DIR"
+create_directory "$FBJ_DIR"
 
 # Copy scripts and utilities
-cp fbj "$MAIN_SCRIPT_DIR/"
-cp conf/* "$CONFIG_DIR/"
-cp -r scripts "$CONFIG_DIR"
-cp -r utilities "$CONFIG_DIR"
+cp fbj "$MAIN_SCRIPT_DIR"/
+cp conf/* "$CONFIG_DIR"/
+cp -r scripts "$FBJ_DIR"/
+cp -r utilities "$FBJ_DIR"/
 
 echo "fbj installed successfully."
