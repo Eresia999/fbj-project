@@ -23,7 +23,7 @@ Jails are created exactly as described in the Handbook.
 ```sh 
 git clone https://github.com/Eresia999/fbj-project.git
 cd fbj-project
-sudo ./install.sh
+sudo sh install.sh
 sudo fbj init 
 ```
 
