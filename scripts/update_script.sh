@@ -15,7 +15,7 @@ else
     exit 1
 fi
 
-# Funzione per aggiornare una jail
+# Update function
 update_jail() {
     jail_name="$1"
     option="$2"
@@ -66,7 +66,7 @@ fi
 if [ -z "$jail_name" ]; then
     for file in "$JAIL_CONF_DIR"/*.conf; do
         jail_name=$(basename "$file" .conf)
-        echo -e "\n\tUpdating: $jail_name\n"
+        printf "\n\tUpdating: $jail_name\n"
         sh $BACKUP_JAIL "$jail_name"
         update_jail "$jail_name" "$option"
     done  

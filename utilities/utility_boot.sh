@@ -13,18 +13,18 @@ start_jail() {
 
 stop_jail() {
     if [ "$(jls -N | awk '{print $1}' | grep -c "$jail_name")" -eq 1 ]; then
-        echo -e "\n\tDisattivo $jail_name"
+        printf "\n\tShutting down $jail_name"
         service jail stop "$jail_name"
   
         # Ciclo while per confermare che la jail sia spenta
         while [ "$(jls -N | awk '{print $1}' | grep -c "$jail_name")" -eq 1 ]; do
-            echo -e "\n\tAttendere: la jail $jail_name sta ancora spegnendo..."
+            printf "\n\t $jail_name is shutting down..."
             sleep 1
         done
   
-        echo -e "\n\tLa jail $jail_name è stata spenta con successo."
+        printf "\n\t $jail_name stopped."
     else
-        echo -e "\n\tLa jail $jail_name non è attiva."
+        printf "\n\tL $jail_name is not started."
     fi
 }
 
@@ -46,6 +46,6 @@ case $option in
         restart_jail
         ;;
     *)
-        echo "No option found"
+        printf "Invalid option: %s\n" "$option"
         ;;
 esac

@@ -1,9 +1,7 @@
 #!/bin/sh
-
-# Questo è lo script principale per gestire le jail su FreeBSD
+set -e
 
 # Include the configuration file
-
 FBJ_DIR="/usr/local/etc/fbj"
 
 if [ -d "~/.local/share/fbj" ]; then
@@ -23,15 +21,17 @@ fi
 
 jail_name="$2"
 
-# Verifica che lo script sia eseguito con i privilegi di root
+# You must be root
 if [ "$(id -u)" -ne 0 ]; then
     echo "Sorry, you must be root to run this script."
     exit 1
 fi
 
+# Check if jail name exists
 if [ -z "$2" ] && { [ "$1" != "update" ] && [ "$1" != "init" ]; }
 then
-  read -p "Nome jail:" jail_name
+  printf "Nome jail: "
+  read jail_name
 fi
 
 case $1 in
