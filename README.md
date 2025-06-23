@@ -7,7 +7,7 @@ You must install it as root, the paths will be:
 
     - Main script: /usr/local/bin
 
-    - Other data: /usr/local/share/fbj
+    - Other data: /usr/local/libexec/fbj
 
     - Config file: /usr/local/etc/fbj
 
