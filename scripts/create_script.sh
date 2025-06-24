@@ -27,7 +27,7 @@ create_jail() {
         release="$(freebsd-version | cut -d- -f1-2)"
     fi
 
-    printf "\n\tCreating $jail_name...\n"
+    printf "\n\tCreating %s...\n" "$jail_name"
 
     # Verify if base exists
     if [ ! -e "$MEDIA_DIR/$release-base.txz" ]; then
@@ -64,6 +64,30 @@ fi
 for arg in "$@"; do
     case "$arg" in
     10.* | 172.* | 192.168.*)
+        ip_part=$(printf "%s" "$arg" | cut -d/ -f1)
+        cidr_part=$(printf "%s" "$arg" | cut -d/ -f2)
+
+        # Missing or wrong CIDR part
+        while [ -z "$cidr_part" ] || [ "$cidr_part" -lt 8 ] || [ "$cidr_part" -gt 32 ]; do
+            printf "Netmask CIDR invalid or missing %s. Insert value between 8 and 32, or 0 to abort: " "$ip_part"
+            read cidr_part
+
+            # Check that it's a number
+            case "$cidr_part" in
+                ''|*[!0-9]*)
+                    cidr_part=""
+                    continue
+                    ;;
+            esac
+
+            if [ "$cidr_part" -eq 0 ]; then
+                printf "Aborting jail creation.\n"
+                exit 1
+            fi
+
+            arg="${ip_part}/${cidr_part}"
+        done
+
         ip="${ip} ${arg}"
         ;;
     *bridge*)
@@ -76,7 +100,9 @@ for arg in "$@"; do
         release="${arg}"
         ;;
     *)
-        printf "Wrong value for: ${arg}"
+        if [ "$arg" != "$jail_name" ]; then
+            printf "Wrong value for: %s" "$arg"
+        fi
     ;;
     esac
     
@@ -103,4 +129,4 @@ if [ -n "$boot_conf" ]; then
     done
 fi
 
-printf "New jail: $jail_name"
+printf "New jail: %s" "$jail_name"
