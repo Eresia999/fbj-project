@@ -33,7 +33,7 @@ sudo fbj init
 
 ### Create a new jail:
 
-`fbj create <name> <ip1> <bridge1> [<ip2> <bridge2>] [start] [autostart]`
+`fbj create <name> <ip1>/<netmask[CIDR]> <bridge1> [<ip2>/<netmask[CIDR]> <bridge2>] [start] [autostart]`
 
 - ip1 and bridge1 are mandatory.
 - ip2 and bridge2 are optional (for dual-stack).
