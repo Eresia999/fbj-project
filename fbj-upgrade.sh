@@ -3,10 +3,17 @@
 # Include the configuration file
 . ./conf/fbj-system.conf
 
+# if not root...
+if [ "$(id -u)" -ne 0 ]; then
+    echo ""
+    echo "Please run this script as root to install fbj"
+    echo ""
+    exit 1
+fi
+
 # update scripts and utilities
 cp fbj "$MAIN_SCRIPT_DIR"/
 cp -r scripts "$FBJ_DIR"/
-cp -r utility "$FBJ_DIR"/
-cp fbj-system.conf "$CONFIG_DIR"/
-
+cp -r utilities "$FBJ_DIR"/
+cp conf/default.template "$CONFIG_DIR"/
 echo "Upgrade complete"
