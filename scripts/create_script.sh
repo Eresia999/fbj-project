@@ -11,7 +11,7 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    echo "Configuration file not found"
+    printf "Configuration file not found"
     exit 1
 fi
 
@@ -24,10 +24,10 @@ create_jail() {
     local hw="$(uname -m)"
 
     if [ -z "$release" ]; then
-        release="$(echo $(freebsd-version) | awk -F- '{print $1 "-" $2}')"
+        release="$(freebsd-version | cut -d- -f1-2)"
     fi
 
-    echo -e "\n\tCreating $jail_name...\n"
+    printf "\n\tCreating %s...\n" "$jail_name"
 
     # Verify if base exists
     if [ ! -e "$MEDIA_DIR/$release-base.txz" ]; then
@@ -56,7 +56,7 @@ jail_path="$JAIL_DIR/$jail_name/root"
 
 # Verify if dataset exists
 if zfs list "$JAIL_ZDIR/$jail_name" >/dev/null 2>&1; then
-  echo "Error: Dataset already exist."
+  printf "Error: Dataset already exist."
   exit 1
 fi
 
@@ -64,6 +64,30 @@ fi
 for arg in "$@"; do
     case "$arg" in
     10.* | 172.* | 192.168.*)
+        ip_part=$(printf "%s" "$arg" | cut -d/ -f1)
+        cidr_part=$(printf "%s" "$arg" | cut -d/ -f2)
+
+        # Missing or wrong CIDR part
+        while [ -z "$cidr_part" ] || [ "$cidr_part" -lt 8 ] || [ "$cidr_part" -gt 32 ]; do
+            printf "Netmask CIDR invalid or missing %s. Insert value between 8 and 32, or 0 to abort: " "$ip_part"
+            read cidr_part
+
+            # Check that it's a number
+            case "$cidr_part" in
+                ''|*[!0-9]*)
+                    cidr_part=""
+                    continue
+                    ;;
+            esac
+
+            if [ "$cidr_part" -eq 0 ]; then
+                printf "Aborting jail creation.\n"
+                exit 1
+            fi
+
+            arg="${ip_part}/${cidr_part}"
+        done
+
         ip="${ip} ${arg}"
         ;;
     *bridge*)
@@ -76,7 +100,9 @@ for arg in "$@"; do
         release="${arg}"
         ;;
     *)
-        echo "Wrong value for: ${arg}"
+        if [ "$arg" != "$jail_name" ]; then
+            printf "Wrong value for: %s" "$arg"
+        fi
     ;;
     esac
     
@@ -103,4 +129,4 @@ if [ -n "$boot_conf" ]; then
     done
 fi
 
-echo "New jail: $jail_name"
+printf "New jail: %s" "$jail_name"

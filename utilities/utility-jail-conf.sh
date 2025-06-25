@@ -11,7 +11,7 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    echo "Configuration file not found"
+    printf "Configuration file not found"
     exit 1
 fi
 
@@ -49,10 +49,10 @@ EOF
 i="0"
 for bridge in $bridges; do
     if [ "$i" -eq 0 ]; then
-        echo -e "    vnet.interface = \"e${i}b_\${name}\";" >> "$jail_conf_file"
+        printf "    vnet.interface = \"e${i}b_\${name}\";" >> "$jail_conf_file"
         i=$((i + 1))
     else
-        echo -e "    vnet.interface += \"e${i}b_\${name}\";" >> "$jail_conf_file"
+        printf "    vnet.interface += \"e${i}b_\${name}\";" >> "$jail_conf_file"
         i=$((i + 1))
     fi
 done
@@ -73,9 +73,9 @@ printf "\n" >> "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
-    echo -e "    exec.prestart += \"ifconfig epair\${id_${i}} create name e${i}a_\${name} up\";" >> "$jail_conf_file"
-    echo -e "    exec.prestart += \"ifconfig epair\${id_${i}}b name e${i}b_\${name}\";" >> "$jail_conf_file"
-    echo -e "    exec.prestart += \"ifconfig \${bridge_${i}} addm e${i}a_\${name}\";" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig epair\${id_${i}} create name e${i}a_\${name} up\";" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig epair\${id_${i}}b name e${i}b_\${name}\";" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig \${bridge_${i}} addm e${i}a_\${name}\";" >> "$jail_conf_file"
     i=$((i + 1))
 done
 
@@ -83,9 +83,9 @@ printf "\n" >> "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
-    echo -e "    exec.poststop += \"ifconfig \${bridge_${i}} deletem e${i}a_\${name}\";" >> "$jail_conf_file"
-    echo -e "    exec.poststop += \"ifconfig e${i}a_\${name} destroy\";" >> "$jail_conf_file"
+    printf "    exec.poststop += \"ifconfig \${bridge_${i}} deletem e${i}a_\${name}\";" >> "$jail_conf_file"
+    printf "    exec.poststop += \"ifconfig e${i}a_\${name} destroy\";" >> "$jail_conf_file"
     i=$((i + 1))
 done
 
-echo -e "}" >> "$jail_conf_file"
+printf "}" >> "$jail_conf_file"

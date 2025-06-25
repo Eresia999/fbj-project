@@ -11,14 +11,15 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    echo "Configuration file not found"
+    printf "Configuration file not found"
     exit 1
 fi
 
 sysrc jail_enable="YES"
 sysrc jail_list+=""
 
-read -p "Do you need custom devfs.rules? [y/N]\n" a_cds
+printf "Do you need custom devfs.rules? [y/N]\n"
+read a_cds
 
 case "$a_cds" in
   [Yy] | [Yy][Ee][Ss]) 
@@ -27,16 +28,16 @@ case "$a_cds" in
             cp "$CUSTOM_DEVFS_RULES" /etc/devfs.rules
             service devfs restart
         else
-            echo "CUSTOM_DEVFS_RULES is not set."
+            printf "CUSTOM_DEVFS_RULES is not set."
         fi
     ;;
   *) 
-    echo "NO custom devfs.rules"
+    printf "NO custom devfs.rules"
     ;;
 esac
 
 if [ -z "$JAIL_ZMOUNTPOINT" ] || [ -z "$JAIL_MOUNTPOINT" ] || [ -z "$JAIL_ZMEDIA" ] || [ -z "$JAIL_ZDIR" ]; then
-    echo "Error: Some variables are not set."
+    printf "Error: Some variables are not set."
     exit 1
 fi
 

@@ -11,13 +11,13 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    echo "Configuration file not found"
+    printf "Configuration file not found"
     exit 1
 fi
 
 # Verifica che sia stato fornito un nome per il jail come argomento
 if [ -z "$1" ]; then
-    echo "Usage: $0 rename <jail_name>"
+    printf "Usage: $0 rename <jail_name>"
     exit 1
 fi
 
@@ -35,11 +35,11 @@ sh $JAIL_BOOT stop $jail_name
 if zfs list "$JAIL_ZDIR/$jail_name" >/dev/null 2>&1; then
     zfs rename $JAIL_ZDIR/$jail_name $JAIL_ZDIR/$new_name
     if zfs list "$JAIL_ZDIR/$new_name" >/dev/null 2>&1; then
-        echo "Dataset renamed successfully!"
-        echo "New dataset: $JAIL_ZDIR/$new_name"
+        printf "Dataset renamed successfully!"
+        printf "New dataset: $JAIL_ZDIR/$new_name"
         mv "$JAIL_CONF_DIR/$jail_name.conf" "$JAIL_CONF_DIR/$new_name.conf"
-        echo "New configuration file: $JAIL_CONF_DIR/$new_name.conf"
+        printf "New configuration file: $JAIL_CONF_DIR/$new_name.conf"
     else
-        echo "Failed to rename dataset: $JAIL_ZDIR/$jail_name"
+        printf "Failed to rename dataset: $JAIL_ZDIR/$jail_name"
     fi
 fi
