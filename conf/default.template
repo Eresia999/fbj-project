@@ -1,0 +1,19 @@
+$jail_name {
+    # STARTUP/LOGGING
+    exec.start = "/bin/sh /etc/rc";
+    exec.stop  = "/bin/sh /etc/rc.shutdown";
+    exec.consolelog = "/var/log/jail_console_\${name}.log";
+
+    # PERMISSIONS
+    exec.clean;
+    mount.devfs;
+    allow.mount;
+    devfs_ruleset = "5";
+#    mount.fstab = $JAIL_DIR/\${name}/fstab;
+
+    # PATH/HOSTNAME
+    path = "$JAIL_DIR/\${name}/root";
+    host.hostname = "\${name}";
+
+    # VNET/VIMAGE
+    vnet;

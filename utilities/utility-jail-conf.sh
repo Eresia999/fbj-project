@@ -19,32 +19,12 @@ jail_name="$1"
 jail_conf_file="$JAIL_CONF_DIR/$jail_name.conf"
 jail_id="$2"
 bridges="$3"
+template="$FBJ_DIR/$4"
 
-if [ -z "$bridges" ]; then
-    bridges="$DEFAULT_BRIDGE"
-fi
-
-cat << EOF > $jail_conf_file
-$jail_name {
-    # STARTUP/LOGGING
-    exec.start = "/bin/sh /etc/rc";
-    exec.stop  = "/bin/sh /etc/rc.shutdown";
-    exec.consolelog = "/var/log/jail_console_\${name}.log";
-
-    # PERMISSIONS
-    exec.clean;
-    mount.devfs;
-    allow.mount;
-    devfs_ruleset = "5";
-#    mount.fstab = $JAIL_DIR/\${name}/fstab;
-
-    # PATH/HOSTNAME
-    path = "$JAIL_DIR/\${name}/root";
-    host.hostname = "\${name}";
-
-    # VNET/VIMAGE
-    vnet;
-EOF
+sed \
+  -e "s|\${jail_name}|$jail_name|g" \
+  -e "s|\${jail_dir}|$JAIL_DIR|g" \
+  "$template" > "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
