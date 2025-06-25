@@ -19,7 +19,7 @@ jail_name="$1"
 jail_conf_file="$JAIL_CONF_DIR/$jail_name.conf"
 jail_id="$2"
 bridges="$3"
-template="$FBJ_DIR/$4"
+template="$CONFIG_DIR/$4"
 
 sed \
   -e "s|\${jail_name}|$jail_name|g" \

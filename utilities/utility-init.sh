@@ -28,11 +28,11 @@ case "$a_cds" in
             cp "$CUSTOM_DEVFS_RULES" /etc/devfs.rules
             service devfs restart
         else
-            printf "CUSTOM_DEVFS_RULES is not set."
+            printf "CUSTOM_DEVFS_RULES is not set.\n"
         fi
     ;;
   *) 
-    printf "NO custom devfs.rules"
+    printf "NO custom devfs.rules\n"
     ;;
 esac
 

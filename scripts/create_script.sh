@@ -114,7 +114,7 @@ done
 
 # Check jail name
 if [ -f "$JAIL_CONF_DIR/$jail_name.conf" ] || jls name | grep -q "^$jail_name$"; then
-    printf "Jail %s already exists." "$jail_name"
+    printf "Jail %s already exists./n" "$jail_name"
     exit 1
 fi
 
@@ -140,8 +140,8 @@ if [ "$count_ip" -gt "$count_bridges" ]; then
 fi
 
 # Check template
-if [ ! -f "$FBJ_DIR"/"$template" ]; then
-    printf "Error: template %s not found in %s\n" "$template" "$FBJ_DIR"
+if [ ! -f "$CONFIG_DIR"/"$template" ]; then
+    printf "Error: template %s not found in %s\n" "$template" "$CONFIG_DIR"
     exit 1
 fi
 

@@ -43,7 +43,7 @@ else
   if [ -d "$JAIL_DIR/$jail_name" ]; then
     rm -rf "$JAIL_DIR/$jail_name"
     if [ -d "$JAIL_DIR/$jail_name" ]; then
-      printf "Failed to delete directory: $JAIL_DIR/$jail_name"
+      printf "Failed to delete directory: $JAIL_DIR/$jail_name\n"
       exit 1
     else
       printf "Deleted directory: %s\n" "$JAIL_DIR/$jail_name"
