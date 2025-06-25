@@ -22,8 +22,8 @@ bridges="$3"
 template="$CONFIG_DIR/$4"
 
 sed \
-  -e "s|\${jail_name}|$jail_name|g" \
-  -e "s|\${jail_dir}|$JAIL_DIR|g" \
+  -e "s|\$jail_name|$jail_name|g" \
+  -e "s|\$JAIL_DIR|$JAIL_DIR|g" \
   "$template" > "$jail_conf_file"
 
 i="0"
@@ -53,9 +53,9 @@ printf "\n" >> "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
-    printf "    exec.prestart += \"ifconfig epair\${id_${i}} create name e${i}a_\${name} up\";" >> "$jail_conf_file"
-    printf "    exec.prestart += \"ifconfig epair\${id_${i}}b name e${i}b_\${name}\";" >> "$jail_conf_file"
-    printf "    exec.prestart += \"ifconfig \${bridge_${i}} addm e${i}a_\${name}\";" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig epair\${id_${i}} create name e${i}a_\${name} up\";\n" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig epair\${id_${i}}b name e${i}b_\${name}\";\n" >> "$jail_conf_file"
+    printf "    exec.prestart += \"ifconfig \${bridge_${i}} addm e${i}a_\${name}\";\n" >> "$jail_conf_file"
     i=$((i + 1))
 done
 
@@ -63,8 +63,8 @@ printf "\n" >> "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
-    printf "    exec.poststop += \"ifconfig \${bridge_${i}} deletem e${i}a_\${name}\";" >> "$jail_conf_file"
-    printf "    exec.poststop += \"ifconfig e${i}a_\${name} destroy\";" >> "$jail_conf_file"
+    printf "    exec.poststop += \"ifconfig \${bridge_${i}} deletem e${i}a_\${name}\";\n" >> "$jail_conf_file"
+    printf "    exec.poststop += \"ifconfig e${i}a_\${name} destroy\";\n" >> "$jail_conf_file"
     i=$((i + 1))
 done
 

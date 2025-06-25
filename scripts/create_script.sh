@@ -166,4 +166,4 @@ if [ -n "$boot_conf" ]; then
     done
 fi
 
-printf "New jail: %s" "$jail_name"
+printf "New jail: %s\n" "$jail_name"
