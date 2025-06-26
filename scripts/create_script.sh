@@ -69,25 +69,28 @@ for arg in "$@"; do
         cidr_part=$(printf "%s" "$arg" | cut -d/ -f2)
 
         # Missing or wrong CIDR part
-        while [ -z "$cidr_part" ] || [ "$cidr_part" -lt 8 ] || [ "$cidr_part" -gt 32 ]; do
-            printf "Netmask CIDR invalid or missing %s. Insert value between 8 and 32, or 0 to abort: " "$ip_part"
-            read cidr_part
-
-            # Check that it's a number
+        while true; do
             case "$cidr_part" in
                 ''|*[!0-9]*)
                     cidr_part=""
-                    continue
+                    ;;
+                *)
+                    if [ "$cidr_part" -ge 8 ] && [ "$cidr_part" -le 32 ]; then
+                        break  # valid
+                    fi
                     ;;
             esac
 
-            if [ "$cidr_part" -eq 0 ]; then
-                printf "Aborting jail creation.\n"
+            printf "Netmask CIDR invalid or missing for %s. Insert value between 8 and 32 (or 0 to abort): " "$ip_part"
+            read cidr_part
+
+            if [ "$cidr_part" = 0 ]; then
+                echo "Aborting jail creation."
                 exit 1
             fi
-
-            arg="${ip_part}/${cidr_part}"
         done
+
+        arg="${ip_part}/${cidr_part}"
 
         ip="${ip} ${arg}"
         ;;
