@@ -24,7 +24,7 @@ stop_jail() {
   
         printf "\n\t $jail_name stopped.\n"
     else
-        printf "\n\tL $jail_name is not started.\n"
+        printf "\n\t $jail_name is not started.\n"
     fi
 }
 

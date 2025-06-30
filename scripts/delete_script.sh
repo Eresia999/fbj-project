@@ -15,9 +15,9 @@ else
     exit 1
 fi
 
-# Verifica che sia stato fornito un nome per il jail come argomento
+# Verify jail name as an argument
 if [ -z "$1" ]; then
-    printf "Usage: $0 delete <jail_name>"
+    printf "Usage: %s delete <jail_name>\n" "$0"
     exit 1
 fi
 

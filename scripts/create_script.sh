@@ -90,9 +90,7 @@ for arg in "$@"; do
             fi
         done
 
-        arg="${ip_part}/${cidr_part}"
-
-        ip="${ip} ${arg}"
+        ip="${ip} ${ip_part}/${cidr_part}"
         ;;
     *bridge*)
         bridges="${bridges} ${arg}"
@@ -134,7 +132,7 @@ set -- $bridges
 count_bridges=$#
 
 if [ "$count_ip" -gt "$count_bridges" ]; then
-    diff=$(( count_ip - count_bridges ))
+    diff=$(( $count_ip - $count_bridges ))
     if [ "$diff" -gt 1 ]; then
         printf "Error: %d IPs (%s) and %d bridges (%s). Please check your arguments.\n" "$count_ip" "$ip" "$count_bridges" "$bridges"
         exit 1
