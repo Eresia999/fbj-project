@@ -17,3 +17,6 @@ $jail_name {
 
     # VNET/VIMAGE
     vnet;
+    # --- DO NOT EDIT BELOW ---
+    # Network configuration is managed by fbj and will be inserted here
+}

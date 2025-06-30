@@ -28,7 +28,7 @@ create_directory "$FBJ_DIR"
 
 # Copy scripts and utilities
 cp fbj "$MAIN_SCRIPT_DIR"/
-cp conf/* "$CONFIG_DIR"/
+cp -r conf/* "$CONFIG_DIR"/
 cp -r scripts "$FBJ_DIR"/
 cp -r utilities "$FBJ_DIR"/
 

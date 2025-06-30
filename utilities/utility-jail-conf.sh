@@ -19,12 +19,13 @@ jail_name="$1"
 jail_conf_file="$JAIL_CONF_DIR/$jail_name.conf"
 jail_id="$2"
 bridges="$3"
-template="$CONFIG_DIR/$4"
+template="$CONFIG_DIR/templates/$4"
 
 sed \
-  -e "s|\$jail_name|$jail_name|g" \
-  -e "s|\$JAIL_DIR|$JAIL_DIR|g" \
-  "$template" > "$jail_conf_file"
+    -e "/# --- DO NOT EDIT BELOW ---/q" \
+    -e "s|\$jail_name|$jail_name|g" \
+    -e "s|\$JAIL_DIR|$JAIL_DIR|g" \
+    "$template" > "$jail_conf_file"
 
 i="0"
 for bridge in $bridges; do
