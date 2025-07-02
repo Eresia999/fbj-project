@@ -2,10 +2,10 @@
 
 # Include the configuration file
 
-FBJ_DIR="/usr/local/etc/fbj"
+CONFIG_DIR_DIR="/usr/local/etc/fbj"
 
-CCONFIG_FILE_USER="$FBJ_DIR/fbj.conf"
-CONFIG_FILE_SYSTEM="$FBJ_DIR/fbj-system.conf"
+CONFIG_FILE_USER="$CONFIG_DIR/fbj.conf"
+CONFIG_FILE_SYSTEM="$CONFIG_DIR/fbj-system.conf"
 
 if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
