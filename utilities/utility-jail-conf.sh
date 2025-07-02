@@ -2,7 +2,7 @@
 
 # Include the configuration file
 
-CONFIG_DIR_DIR="/usr/local/etc/fbj"
+CONFIG_DIR="/usr/local/etc/fbj"
 
 CONFIG_FILE_USER="$CONFIG_DIR/fbj.conf"
 CONFIG_FILE_SYSTEM="$CONFIG_DIR/fbj-system.conf"
@@ -11,7 +11,7 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    printf "Configuration file not found"
+    printf "Configuration file not found\n"
     exit 1
 fi
 
