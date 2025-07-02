@@ -2,7 +2,7 @@
 
 # Include the configuration file
 
-CONFIG_DIR_DIR="/usr/local/etc/fbj"
+CONFIG_DIR="/usr/local/etc/fbj"
 
 CONFIG_FILE_USER="$CONFIG_DIR/fbj.conf"
 CONFIG_FILE_SYSTEM="$CONFIG_DIR/fbj-system.conf"

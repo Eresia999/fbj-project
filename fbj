@@ -15,7 +15,7 @@ if [ -f "$CONFIG_FILE_USER" ] && [ -f "$CONFIG_FILE_SYSTEM" ]; then
     . "$CONFIG_FILE_USER"
     . "$CONFIG_FILE_SYSTEM"
 else
-    echo "Configuration file not found"
+    printf "Configuration file not found\n"
     exit 1
 fi
 
